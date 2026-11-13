@@ -1,75 +1,39 @@
-# React + TypeScript + Vite
+# AgentGuard NEAR — Spending Policy Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An experimental interface exploring how proposed NEAR transfers could be checked against spending policies.
 
-Currently, two official plugins are available:
+## Current implementation
+- Configure daily and per-transaction spending limits.
+- Evaluate a recipient and requested amount.
+- Generate ALLOW, WARN or BLOCK decisions using local rules.
+- Track allowed amounts and recent decisions during the current page session.
+- Reset the local simulation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Important limitation
+This repository currently contains a **local policy simulator**, not an on-chain security enforcement product. It does not connect a wallet, sign or broadcast transactions, intercept agent actions, enforce policies against a live NEAR account, or persist policy data to Supabase. Do not rely on it to protect real funds.
 
-## React Compiler
+## Run locally
+Requires Node.js 20.19+ or 22.12+.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Verify a production build with:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run build
 ```
+
+## Roadmap
+1. Add authenticated, owner-scoped policy storage.
+2. Integrate NEAR transaction construction and simulation without exposing signing keys.
+3. Implement a trusted enforcement boundary before wallet signing.
+4. Add automated tests for policy edge cases.
+5. Complete an independent security review before any real-fund use.
+
+Never commit wallet seed phrases, private keys, service-role credentials or production secrets.
+
+## Author
+Tuquash — https://github.com/Tuquash
