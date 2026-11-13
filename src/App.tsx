@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import './index.css'
 
 type Decision = 'ALLOW' | 'WARN' | 'BLOCK'
@@ -16,7 +16,7 @@ export default function App() {
   const allowed = useMemo(() => entries.filter(item => item.decision === 'ALLOW').length, [entries])
   const fmt = (value: number) => value.toFixed(3) + ' NEAR'
 
-  function evaluate(event: React.FormEvent<HTMLFormElement>) {
+  function evaluate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!recipient.trim() || !Number.isFinite(amount) || amount <= 0 || dailyLimit <= 0 || transactionLimit <= 0) {
       setNotice('Enter a recipient and positive limits and amount.')
